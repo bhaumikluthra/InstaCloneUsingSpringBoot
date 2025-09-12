@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InstaClone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <div class="topbar">
+        <div class="brand"><i class="fa-solid fa-camera-retro"></i> InstaClone</div>
+        <div class="search">
+          <div class="search-wrapper">
+            <i class="fa-solid fa-search search-icon"></i>
+            <input placeholder="Search users and posts" />
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="theme-toggle" class="theme"><i class="fa-solid fa-moon"></i></button>
+          <div class="notifications"><i class="fa-solid fa-bell"></i></div>
+          <div class="avatar"><img src="https://ui-avatars.com/api/?name=User&background=random" alt="User" /></div>
+        </div>
+      </div>
+      <aside class="sidebar">
+        <nav class="nav" role="navigation" aria-label="Primary">
+          <button class="nav-btn active" data-target="register" aria-controls="register">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Register</span>
+          </button>
+          <button class="nav-btn" data-target="users" aria-controls="users">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+          </button>
+          <button class="nav-btn" data-target="profile" aria-controls="profile">
+            <i class="fa-solid fa-user"></i>
+            <span>Profile</span>
+          </button>
+          <button class="nav-btn" data-target="posts" aria-controls="posts">
+            <i class="fa-solid fa-images"></i>
+            <span>Posts</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="nav-btn">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+          </button>
+          <button class="nav-btn">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Help</span>
+          </button>
+        </div>
+      </aside>
+      <main class="main">
+        <section id="register" class="panel active">
+          <div class="panel-header">
+            <h2 class="h2">Create account</h2>
+            <p class="muted">Join our community and start sharing your moments</p>
+          </div>
+          <div class="panel-content">
+            <form id="form-register" class="card">
+              <div class="form-header">
+                <i class="fa-solid fa-user-plus form-icon"></i>
+                <h3>Sign Up</h3>
+              </div>
+              <div class="form-group">
+                <label for="reg-username">Username</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-at input-icon"></i>
+                  <input id="reg-username" name="userName" placeholder="username" required minlength="3" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="reg-name">Full Name</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-user input-icon"></i>
+                  <input id="reg-name" name="name" placeholder="Your full name" required />
+                </div>
+              </div>
+              <button type="submit" class="btn-primary">Create Account</button>
+              <p class="msg" id="msg-register"></p>
+            </form>
+          </div>
+        </section>
+
+        <section id="users" class="panel">
+          <div class="panel-header">
+            <h2 class="h2">Discover People</h2>
+            <p class="muted">Connect with other users in our community</p>
+          </div>
+          <div class="panel-content">
+            <div class="toolbar card">
+              <div class="toolbar-left">
+                <div class="input-with-icon search-small">
+                  <i class="fa-solid fa-search input-icon"></i>
+                  <input placeholder="Filter users" id="filter-users" />
+                </div>
+              </div>
+              <div class="toolbar-right">
+                <button id="btn-refresh-users" class="btn-primary">
+                  <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+              </div>
+            </div>
+            <div class="card users-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="table-users"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="profile" class="panel">
+          <div class="panel-header">
+            <h2 class="h2">My Profile</h2>
+            <p class="muted">Manage your personal information and connections</p>
+          </div>
+          <div class="panel-content">
+            <div class="profile-grid">
+              <div class="profile-sidebar card">
+                <div class="profile-avatar">
+                  <img src="https://ui-avatars.com/api/?name=User&background=random&size=150" alt="Profile" />
+                  <button class="btn-circle"><i class="fa-solid fa-camera"></i></button>
+                </div>
+                <div class="profile-stats">
+                  <div class="stat-item">
+                    <span class="stat-value" id="posts-count">0</span>
+                    <span class="stat-label">Posts</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value" id="followers-count">0</span>
+                    <span class="stat-label">Followers</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value" id="following-count">0</span>
+                    <span class="stat-label">Following</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="profile-main">
+                <form id="form-profile" class="card">
+                  <div class="form-header">
+                    <h3><i class="fa-solid fa-user-pen"></i> Edit Profile</h3>
+                  </div>
+                  <div class="form-group">
+                    <label for="profile-username">Username</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-at input-icon"></i>
+                      <input id="profile-username" name="userName" placeholder="username" required />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="profile-name">Display Name</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-user input-icon"></i>
+                      <input id="profile-name" name="newName" placeholder="Your display name" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="profile-bio">Bio</label>
+                    <textarea id="profile-bio" name="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                  </div>
+                  <div class="button-group">
+                    <button id="btn-change-name" type="button" class="btn-primary">Update Profile</button>
+                    <button id="btn-add-bio" type="button" class="btn-secondary">Add Bio</button>
+                    <button id="btn-change-bio" type="button" class="btn-secondary">Update Bio</button>
+                    <button id="btn-delete-bio" type="button" class="btn-danger"><i class="fa-solid fa-trash"></i> Delete Bio</button>
+                  </div>
+                  <p class="msg" id="msg-profile"></p>
+                </form>
+                
+                <div class="card">
+                  <div class="form-header">
+                    <h3><i class="fa-solid fa-user-group"></i> Connections</h3>
+                  </div>
+                  <div class="form-group">
+                    <label>Your Username</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-user input-icon"></i>
+                      <input id="inp-current-user" placeholder="Your username" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Target User</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-user-plus input-icon"></i>
+                      <input id="inp-target-user" placeholder="Username to interact with" />
+                    </div>
+                  </div>
+                  <div class="button-group">
+                    <button id="btn-follow" type="button" class="btn-primary"><i class="fa-solid fa-user-plus"></i> Follow</button>
+                    <button id="btn-unfollow" type="button" class="btn-secondary"><i class="fa-solid fa-user-minus"></i> Unfollow</button>
+                    <button id="btn-block" type="button" class="btn-danger"><i class="fa-solid fa-ban"></i> Block</button>
+                    <button id="btn-unblock" type="button" class="btn-secondary"><i class="fa-solid fa-unlock"></i> Unblock</button>
+                  </div>
+                  <div class="button-group">
+                    <button id="btn-followers" type="button" class="btn-secondary"><i class="fa-solid fa-users"></i> My Followers</button>
+                    <button id="btn-following" type="button" class="btn-secondary"><i class="fa-solid fa-user-check"></i> Following</button>
+                  </div>
+                  <div class="connections-list">
+                    <ul id="list-rel" class="list"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="posts" class="panel">
+          <div class="panel-header">
+            <h2 class="h2">Feed</h2>
+            <p class="muted">Share moments and connect with others</p>
+          </div>
+          <div class="panel-content">
+            <form id="form-post" class="card">
+              <div class="form-header">
+                <i class="fa-solid fa-pen-to-square form-icon"></i>
+                <h3>Create Post</h3>
+              </div>
+              <div class="form-group">
+                <label for="post-username">Username</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-at input-icon"></i>
+                  <input id="post-username" name="userName" placeholder="Your username" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="post-title">Title</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-heading input-icon"></i>
+                  <input id="post-title" name="postTitle" placeholder="Title (2-15 chars)" minlength="2" maxlength="15" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="post-content">Content</label>
+                <textarea id="post-content" name="postContent" rows="3" placeholder="What's on your mind? (12-180 chars)" minlength="12" maxlength="180" required></textarea>
+                <div class="char-counter"><span id="content-counter">0</span>/180</div>
+              </div>
+              <div class="form-group">
+                <div class="post-actions">
+                  <button type="button" class="btn-icon" disabled><i class="fa-solid fa-image"></i></button>
+                  <button type="button" class="btn-icon" disabled><i class="fa-solid fa-video"></i></button>
+                  <button type="button" class="btn-icon" disabled><i class="fa-solid fa-location-dot"></i></button>
+                  <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Publish</button>
+                </div>
+              </div>
+              <p class="msg" id="msg-post"></p>
+            </form>
+            
+            <div class="card posts-container">
+              <div class="posts-header">
+                <h3><i class="fa-solid fa-images"></i> Posts</h3>
+                <div class="posts-filter">
+                  <div class="input-with-icon search-small">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input id="inp-post-user" placeholder="Filter by username" />
+                  </div>
+                  <button id="btn-load-posts" class="btn-secondary">
+                    <i class="fa-solid fa-rotate"></i> Load Posts
+                  </button>
+                </div>
+              </div>
+              <ul id="list-posts" class="post-list"></ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/main.js" type="module"></script>
+  </body>
+</html>
+
+
