@@ -1,17 +1,32 @@
 package com.instaApp.instaClone.controllers;
 
-import com.instaApp.instaClone.controllers.models.*;
-import com.instaApp.instaClone.service.UserService;
-import com.instaApp.instaClone.service.dto.UserDto;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.instaApp.instaClone.controllers.models.AddBioApiReq;
+import com.instaApp.instaClone.controllers.models.AddStatusApiReq;
+import com.instaApp.instaClone.controllers.models.ChangeNameApiReq;
+import com.instaApp.instaClone.controllers.models.ChangeUserNameApiReq;
+import com.instaApp.instaClone.controllers.models.GetAllUserApiRes;
+import com.instaApp.instaClone.controllers.models.RegisterUserApiReq;
+import com.instaApp.instaClone.service.UserService;
+import com.instaApp.instaClone.service.dto.UserDto;
+
+import jakarta.validation.Valid;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     UserService userService;
@@ -21,7 +36,7 @@ public class UserController {
         if(bindingResult.hasErrors()) {
             return "username not valid";
         }
-        UserDto userDto = new UserDto(registerUserApiReq.getUserName(),registerUserApiReq.getName());
+        UserDto userDto = new UserDto(registerUserApiReq.getUserName(),registerUserApiReq.getName(),registerUserApiReq.getPassword());
         return userService.addUser(userDto);
     }
 

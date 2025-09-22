@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaClone API Test - View Data</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">InstaClone</a>
+            <div class="nav-links">
+                <a href="user.html" class="nav-link">User Profile</a>
+                <a href="posts.html" class="nav-link">Posts</a>
+                <a href="view.html" class="nav-link">View Data</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>View Data</h1>
+
+        <div class="section">
+            <h2>View User Data</h2>
+            <div class="form-group">
+                <label for="view-username">Username (optional)</label>
+                <input type="text" id="view-username" 
+                       placeholder="Enter username to view specific data">
+            </div>
+            <div class="button-group">
+                <button onclick="getAllUsers()">Get All Users</button>
+                <button onclick="getUserPosts()">Get User Posts</button>
+                <button onclick="getFollowers()">Get Followers</button>
+                <button onclick="getFollowing()">Get Following</button>
+            </div>
+            <div id="view-response" class="response"></div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+        // Get All Users
+        async function getAllUsers() {
+            try {
+                const response = await apiRequest('/allusers', 'GET');
+                updateResponse('view-response', response);
+            } catch (error) {
+                updateResponse('view-response', error.message, true);
+            }
+        }
+
+        // Get User Posts
+        async function getUserPosts() {
+            const username = document.getElementById('view-username').value;
+            if (!username) {
+                updateResponse('view-response', 'Please enter a username', true);
+                return;
+            }
+            try {
+                const response = await apiRequest(`/allpost/${username}`, 'GET');
+                updateResponse('view-response', response);
+            } catch (error) {
+                updateResponse('view-response', error.message, true);
+            }
+        }
+
+        // Get Followers
+        async function getFollowers() {
+            const username = document.getElementById('view-username').value;
+            if (!username) {
+                updateResponse('view-response', 'Please enter a username', true);
+                return;
+            }
+            try {
+                const response = await apiRequest(`/getAllFollowers/${username}`, 'GET');
+                updateResponse('view-response', response);
+            } catch (error) {
+                updateResponse('view-response', error.message, true);
+            }
+        }
+
+        // Get Following
+        async function getFollowing() {
+            const username = document.getElementById('view-username').value;
+            if (!username) {
+                updateResponse('view-response', 'Please enter a username', true);
+                return;
+            }
+            try {
+                const response = await apiRequest(`/getAllFollowing/${username}`, 'GET');
+                updateResponse('view-response', response);
+            } catch (error) {
+                updateResponse('view-response', error.message, true);
+            }
+        }
+    </script>
+</body>
+</html>

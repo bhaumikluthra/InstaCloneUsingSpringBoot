@@ -222,7 +222,7 @@ public class UserRepository {
         List<User>ls=userdataStore.getAllUser();
         List<UserDto>ls1=new ArrayList<>();
         for(int i=0;i<ls.size();i++){
-            ls1.add(new UserDto(ls.get(i).getUsername(),ls.get(i).getName(),ls.get(i).getBio(),ls.get(i).getStatus()));
+            ls1.add(new UserDto(ls.get(i).getUsername(),ls.get(i).getName(),ls.get(i).getBio(),ls.get(i).getStatus(),ls.get(i).getPassword()));
         }
         return ls1;
     }

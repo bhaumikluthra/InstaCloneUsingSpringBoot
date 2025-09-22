@@ -6,12 +6,14 @@ import com.instaApp.instaClone.service.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
 
     public String addUser(UserDto user){
         return userRepository.addUser(user);

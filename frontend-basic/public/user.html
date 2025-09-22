@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaClone API Test - User Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">InstaClone</a>
+            <div class="nav-links">
+                <a href="user.html" class="nav-link">User Profile</a>
+                <a href="posts.html" class="nav-link">Posts</a>
+                <a href="view.html" class="nav-link">View Data</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>User Profile Management</h1>
+        
+        <div class="section">
+            <h2>Register User</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-username">Username (4-15 characters)</label>
+                    <input type="text" id="reg-username" required 
+                           minlength="4" maxlength="15" 
+                           placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" required 
+                           placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password (min 8 characters)</label>
+                    <input type="password" id="reg-password" required 
+                           minlength="8" 
+                           placeholder="Enter password">
+                </div>
+                <button type="submit">Register User</button>
+            </form>
+            <div id="register-response" class="response"></div>
+        </div>
+
+        <div class="section">
+            <h2>Add Bio</h2>
+            <form id="bio-form">
+                <div class="form-group">
+                    <label for="bio-username">Username</label>
+                    <input type="text" id="bio-username" required 
+                           placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="bio-text">Bio Content</label>
+                    <textarea id="bio-text" required 
+                            placeholder="Write something about yourself..."></textarea>
+                </div>
+                <button type="submit">Update Bio</button>
+            </form>
+            <div id="bio-response" class="response"></div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+        // Register User
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const data = {
+                    userName: document.getElementById('reg-username').value,
+                    name: document.getElementById('reg-name').value,
+                    password: document.getElementById('reg-password').value
+                };
+                const response = await apiRequest('/adduser', 'POST', data);
+                updateResponse('register-response', response);
+                e.target.reset();
+            } catch (error) {
+                updateResponse('register-response', error.message, true);
+            }
+        });
+
+        // Add Bio
+        document.getElementById('bio-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const data = {
+                    userName: document.getElementById('bio-username').value,
+                    bio: document.getElementById('bio-text').value
+                };
+                const response = await apiRequest('/addBio', 'POST', data);
+                updateResponse('bio-response', response);
+                e.target.reset();
+            } catch (error) {
+                updateResponse('bio-response', error.message, true);
+            }
+        });
+    </script>
+</body>
+</html>

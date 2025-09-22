@@ -10,24 +10,28 @@ public class UserDto {
     private final String name;
     private String bio;
     private String status;
+    private String password;
 
-    public  UserDto(String userName, String name) {
+    public  UserDto(String userName, String name,String password) {
         this.userName = userName;
         this.name = name;
+        this.password = password;
     }
 
-    public  UserDto( String userName,String name,String bio) {
+    public  UserDto( String userName,String name,String bio,String password) {
         this.userName = userName;
         this.name = name;
         this.bio = bio;
+        this.password = password;
     }
 
     @JsonCreator
-    public  UserDto(@JsonProperty("userName") String userName,@JsonProperty("name") String name,@JsonProperty String bio,@JsonProperty String status) {
+    public  UserDto(@JsonProperty("userName") String userName,@JsonProperty("name") String name,@JsonProperty String bio,@JsonProperty String status,@JsonProperty String password) {
         this.userName = userName;
         this.name = name;
         this.bio = bio;
         this.status = status;
+        this.password = password;
     }
 
     public String getStatus() {
@@ -46,4 +50,5 @@ public class UserDto {
     public String getUserName() {
         return userName;
     }
+    public String getPassword() {return password;}
 }

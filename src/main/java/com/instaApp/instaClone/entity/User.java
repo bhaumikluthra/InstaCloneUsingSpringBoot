@@ -7,6 +7,8 @@ public class User
     private  String name;
     private  String username;
     private String password;
+
+
     private int age;
 
     private String bio;
@@ -16,13 +18,11 @@ public class User
     private List<String>followers=new ArrayList<>();
     private List<String>blocked=new ArrayList<>();
 
-    public User(String username,String name,int age,String status,String password){
+    public User(String username,String name,String password){
         this.username=username;
         this.name=name;
-        this.age=age;
         this.password=password;
     }
-
 
 
     public void addBio(String bio){
@@ -37,9 +37,7 @@ public class User
         this.status=status;
     }
 
-    public String getPassword(){
-        return password;
-    }
+
 
     public void blockuser(String username){
         blocked.add(username);
@@ -53,6 +51,17 @@ public class User
         return status;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
     public void changeUserName(String newUserName){
         this.username=newUserName;
     }

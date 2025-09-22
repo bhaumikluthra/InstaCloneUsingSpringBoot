@@ -1,6 +1,7 @@
 package com.instaApp.instaClone.controllers.models;
 
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class RegisterUserApiReq {
@@ -9,13 +10,18 @@ public class RegisterUserApiReq {
     private  String userName;
     private  String name;
 
-    @Size(min = 7,max = 15, message = "please add password between 7 to 15 alphabets")
+    @NotBlank
+    @Size(min = 8)
     private String password;
 
     public RegisterUserApiReq(String userName,String name,String password) {
         this.userName = userName;
         this.name=name;
         this.password=password;
+    }
+
+    public String getPassword() {
+        return password;
     }
     public String getUserName() {
         return userName;
