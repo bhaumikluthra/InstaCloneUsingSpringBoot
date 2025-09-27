@@ -1,0 +1,58 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-card {
+    width: 350px; /* Keep a fixed width for the card */
+    padding: 40px;
+    text-align: center;
+    background-color: var(--card-background); /* Use global card background */
+    border: 1px solid var(--border-color); /* Use global border color */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow for dark mode */
+    max-width: 100%; /* Ensure it doesn't overflow on small screens */
+}
+
+.login-card h1 {
+    font-family: 'Lobster', cursive;
+    font-size: 3rem;
+    margin: 0 0 20px 0;
+    color: var(--primary-text-color); /* Use global primary text color */
+}
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* This targets the button specifically inside the login form */
+.login-card form button {
+    background-color: var(--accent-color) !important; /* Force the blue color */
+    color: white !important; /* Force white text */
+    opacity: 1 !important; /* Ensure it's not transparent */
+}
+
+.login-card p {
+    color: var(--secondary-text-color); /* Use global secondary text color */
+    font-size: 0.9rem;
+}
+
+.login-card a {
+    color: var(--accent-color); /* Use global accent color */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-card .message {
+    margin-top: 15px;
+    min-height: 20px;
+    color: #ed4956; /* Error messages stand out */
+}

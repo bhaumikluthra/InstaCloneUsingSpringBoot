@@ -1,0 +1,40 @@
+.navbar {
+    background-color: var(--card-background); /* Dark background for navbar */
+    border-bottom: 1px solid var(--border-color); /* Dark border */
+    padding: 0 20px;
+    align-content: center;
+}
+.navbar-container {
+    max-width: 975px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+.navbar-logo {
+    font-family: 'Lobster', cursive;
+    font-size: 1.8rem;
+    color: var(--primary-text-color); /* White logo text */
+    text-decoration: none;
+}
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.navbar-item {
+    color: var(--primary-text-color); /* White menu item text */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color); /* Instagram blue for logout */
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}

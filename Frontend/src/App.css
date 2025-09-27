@@ -1,0 +1,180 @@
+/* Define our color palette for dark mode and global styles */
+:root {
+  --background-color: #000000; /* Black background */
+  --card-background: #121212; /* Dark grey for cards */
+  --primary-text-color: #ffffff; /* White text */
+  --secondary-text-color: #a8a8a8; /* Lighter grey for secondary text */
+  --border-color: #363636; /* Darker grey for borders */
+  --accent-color: #0095f6; /* Instagram blue for accents */
+  --accent-color-hover: #0077c6;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  margin: 0;
+}
+
+.container {
+  max-width: 680px;  /* Sets a maximum width for your content */
+  margin: 0 auto;    /* This is the key: it centers the container */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center; /* This will keep the cards centered within the full-width page */
+  width: 100%;
+}
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 680px; /* Apply a max-width to the cards for readability */
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  color: var(--primary-text-color);
+}
+
+input {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--card-background);
+  color: var(--primary-text-color); /* <-- ADD THIS LINE */
+}
+/* Placeholder text color for dark mode */
+input::placeholder {
+  color: var(--secondary-text-color);
+  opacity: 0.7;
+}
+
+button {
+  padding: 12px;
+  background-color: var(--accent-color);
+
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* ======================================= */
+/* Style Fixes                           */
+/* ======================================= */
+
+/* This rule specifically targets any button inside a form that's inside a card */
+.card form button {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.card form button:hover {
+  background-color: var(--accent-color-hover);
+}
+
+.message {
+  color: #ed4956; /* Error messages remain red */
+  text-align: center;
+  min-height: 20px;
+}
+
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-item:last-child {
+  border-bottom: none;
+}
+
+.username {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--primary-text-color);
+}
+
+.username:hover {
+  text-decoration: underline;
+}
+
+.name {
+  color: var(--secondary-text-color);
+}
+
+/* Specific styling for the HomePage user list container */
+.user-list-container {
+  max-width: 400px; /* Constrain width for a compact look */
+  margin: 0 auto; /* Center it */
+}
+/* ======================================= */
+/* Profile Page Specific Styles            */
+/* ======================================= */
+
+.profile-header.card {
+  text-align: center;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center; /* Center the stats horizontally */
+  gap: 24px; /* This adds space between "posts", "followers", etc. */
+  margin: 20px 0;
+}
+
+.profile-stats span {
+  font-size: 1rem;
+}
+
+.profile-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.create-post-form textarea {
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't make it overflow */
+  resize: vertical; /* Allow vertical resizing */
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: var(--card-background);
+  color: var(--primary-text-color);
+}
+

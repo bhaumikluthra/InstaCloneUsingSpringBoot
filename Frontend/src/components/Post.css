@@ -1,0 +1,20 @@
+.post-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.post-title {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.post-content {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    white-space: pre-wrap; /* Preserves line breaks in the content */
+}
