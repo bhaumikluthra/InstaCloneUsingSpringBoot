@@ -137,7 +137,7 @@ button {
 /* Specific styling for the HomePage user list container */
 .user-list-container {
   max-width: 400px; /* Constrain width for a compact look */
-  margin: 0 auto; /* Center it */
+  margin: 10px; /* Center it */
 }
 /* ======================================= */
 /* Profile Page Specific Styles            */
