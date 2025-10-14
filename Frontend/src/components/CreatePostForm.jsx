@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 
 export default function CreatePostForm({ onPostCreated }) {
     const { currentUser } = useAuth();
+    const currentUsername = currentUser?.username; // <-- extract username
+
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
     const [message, setMessage] = useState('');
@@ -12,7 +14,7 @@ export default function CreatePostForm({ onPostCreated }) {
         const postDto = { postTitle, postContent };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${currentUser}/posts`, {
+            const response = await fetch(`http://localhost:8080/api/users/${currentUsername}/posts`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(postDto)

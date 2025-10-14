@@ -45,10 +45,13 @@ export default function Navbar() {
 
                 {currentUser && (
                     <div className="navbar-menu">
-                        <Link to={`/${currentUser.username}`} className="navbar-item">My Profile</Link>
+                        <Link to={`/${currentUser.username}`} className="navbar-item">
+                            My Profile
+                        </Link>
                         <button onClick={handleLogout} className="navbar-item logout-btn">Logout</button>
                     </div>
                 )}
+
             </div>
         </nav>
     );
