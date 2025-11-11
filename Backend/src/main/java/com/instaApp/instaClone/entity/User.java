@@ -182,9 +182,7 @@ public class User {
     @ManyToMany(mappedBy = "following")
     private Set<User> followers = new HashSet<>();
 
-    /**
-     * Represents the set of users that this user has blocked.
-     */
+//Represents the set of users that this user has blocked.
     @ManyToMany
     @JoinTable(
             name = "user_blocked",
@@ -203,7 +201,7 @@ public class User {
         this.password = password;
     }
 
-    // Standard Getters and Setters
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     public String getName() { return name; }

@@ -117,19 +117,26 @@
 
 package com.instaApp.instaClone.controllers;
 
-import com.instaApp.instaClone.entity.User;
-import com.instaApp.instaClone.service.UserService;
-import com.instaApp.instaClone.service.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.CrossOrigin; // <-- Make sure to import this
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping; // <-- Make sure to import this
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.instaApp.instaClone.entity.User;
+import com.instaApp.instaClone.service.UserService;
+import com.instaApp.instaClone.service.dto.UserDto;
 
 
 // ... other imports
@@ -225,24 +232,67 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * Gets a list of users that a specific user is following.
-     * GET /api/users/{username}/following
-     */
+    
     @GetMapping("/{username}/following")
-    public ResponseEntity<List<UserDto>> getFollowing(@PathVariable String username) {
-        List<UserDto> following = userService.getFollowing(username);
+    public ResponseEntity<List<UserDto>> getFollowing(@PathVariable String username,
+                                                     @RequestParam(required = false) String requester) {
+        List<UserDto> following = (requester == null)
+                ? userService.getFollowing(username)
+                : userService.getFollowingFiltered(username, requester);
         return ResponseEntity.ok(following);
     }
 
-    /**
-     * Gets a list of a user's followers.
-     * GET /api/users/{username}/followers
-     */
     @GetMapping("/{username}/followers")
-    public ResponseEntity<List<UserDto>> getFollowers(@PathVariable String username) {
-        List<UserDto> followers = userService.getFollowers(username);
+    public ResponseEntity<List<UserDto>> getFollowers(@PathVariable String username,
+                                                    @RequestParam(required = false) String requester) {
+        List<UserDto> followers = (requester == null)
+                ? userService.getFollowers(username)
+                : userService.getFollowersFiltered(username, requester);
         return ResponseEntity.ok(followers);
+    }
+
+    @PutMapping("/{username}/block/{usernameToBeBlocked}")
+    public ResponseEntity<String> blockUser(@PathVariable String username, @PathVariable String usernameToBeBlocked) {
+        String result= userService.blockUser(username, usernameToBeBlocked);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Unblock endpoint: DELETE /api/users/{username}/block/{usernameToBeUnblocked}
+     */
+    @DeleteMapping("/{username}/block/{usernameToBeUnblocked}")
+    public ResponseEntity<String> unblockUser(@PathVariable String username, @PathVariable String usernameToBeUnblocked) {
+        String result = userService.unblockUser(username, usernameToBeUnblocked);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Get list of usernames that the given user has blocked.
+     * GET /api/users/{username}/blocked
+     */
+    @GetMapping("/{username}/blocked")
+    public ResponseEntity<List<String>> getBlocked(@PathVariable String username) {
+        List<String> blocked = userService.getBlockedUsernames(username);
+        return ResponseEntity.ok(blocked);
+    }
+
+        /**
+         * Get list of full UserDto objects that the given user has blocked.
+         * GET /api/users/{username}/blockedUsers
+         */
+        @GetMapping("/{username}/blockedUsers")
+        public ResponseEntity<List<UserDto>> getBlockedUsers(@PathVariable String username) {
+            List<UserDto> blockedUsers = userService.getBlockedUsers(username);
+            return ResponseEntity.ok(blockedUsers);
+        }
+    /**
+     * Get list of usernames who have blocked the given user.
+     * GET /api/users/{username}/blockedBy
+     */
+    @GetMapping("/{username}/blockedBy")
+    public ResponseEntity<List<String>> getBlockedBy(@PathVariable String username) {
+        List<String> blockedBy = userService.getUsersWhoBlocked(username);
+        return ResponseEntity.ok(blockedBy);
     }
 
 }

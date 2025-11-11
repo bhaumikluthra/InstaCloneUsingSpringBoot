@@ -1,101 +1,18 @@
-//package com.instaApp.instaClone.service;
-//
-//
-//import com.instaApp.instaClone.repository.UserRepository;
-//import com.instaApp.instaClone.service.dto.UserDto;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//
-//import java.util.List;
-//
-//@Service
-//public class UserService {
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//
-//    public String addUser(UserDto user){
-//        return userRepository.addUser(user);
-//    }
-//
-//    public String addBio(String bio,String userName){
-//        return userRepository.addBio(bio,userName);
-//    }
-//
-//    public String deleteBio(String userName){
-//        return userRepository.deleteBio(userName);
-//    }
-//
-//    public String changeBio(String bio,String userName){
-//        return userRepository.changeBio(bio,userName);
-//    }
-//
-//    public String addStatus(String userName,String status){
-//        return userRepository.addStatus(userName,status);
-//    }
-//
-//    public String deleteStatus(String userName){
-//        return userRepository.deleteStatus(userName);
-//    }
-//
-//
-//
-//    public String changeUserName(String currUsername,String newUserName){
-//        return userRepository.changeUserName(currUsername,newUserName);
-//    }
-//
-//    public String changeName(String userName,String name){
-//        return userRepository.changeName(userName,name);
-//    }
-//
-//    public String addFollower(String tbf,String ci){
-//        return userRepository.followUser(tbf, ci);
-//    }
-//
-//    public String removeFollower(String tbuf,String ci){
-//        return userRepository.unfollowUser(tbuf, ci);
-//    }
-//
-//    public String block(String userName,String userToBeBlocked){
-//        return userRepository.block(userName,userToBeBlocked);
-//    }
-//
-//    public String unblock(String userName,String userToBeUnBlocked){
-//        return userRepository.unBlockUser(userName,userToBeUnBlocked);
-//    }
-//
-//
-//
-//    public List<String> getAllFollowers(String userName){
-//        return userRepository.getAllFollowers(userName);
-//    }
-//
-//    public  List<String> getAllFollowing(String userName){
-//        return userRepository.getAllFollowing(userName);
-//    }
-//
-//    public List<UserDto> getAllUsers(){
-//        return userRepository.getAllUsers();
-//    }
-//
-//
-//
-//
-//
-//}
+
 package com.instaApp.instaClone.service;
 
-import com.instaApp.instaClone.entity.User;
-import com.instaApp.instaClone.repository.UserRepository;
-import com.instaApp.instaClone.service.dto.UserDto;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import com.instaApp.instaClone.entity.User;
+import com.instaApp.instaClone.repository.UserRepository;
+import com.instaApp.instaClone.service.dto.UserDto;
 
 @Service
 public class UserService {
@@ -103,12 +20,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // A password encoder to securely hash passwords
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    /**
-     * Creates a new user with a hashed password.
-     */
     public User createUser(UserDto userDto) {
         if (userRepository.existsById(userDto.getUserName())) {
             throw new RuntimeException("User already exists with username: " + userDto.getUserName());
@@ -116,47 +29,30 @@ public class UserService {
         User userEntity = new User();
         userEntity.setUsername(userDto.getUserName());
         userEntity.setName(userDto.getName());
-
-        // Hash the user's password before saving it to the database
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
         return userRepository.save(userEntity);
     }
 
-    /**
-     * Authenticates a user by checking their password.
-     */
     public User loginUser(UserDto userDto) {
         User user = findByUsername(userDto.getUserName());
-
-        // Securely compare the submitted password with the hashed password from the database
         if (passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            return user; // Passwords match, login is successful
+            return user;
         } else {
             throw new RuntimeException("Invalid username or password");
         }
     }
 
-    /**
-     * Finds a user by their username. A helper method for other services.
-     */
     public User findByUsername(String username) {
         return userRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
     }
 
-    /**
-     * Updates a user's bio.
-     */
     public User updateBio(String username, String bio) {
         User user = findByUsername(username);
         user.setBio(bio);
         return userRepository.save(user);
     }
 
-    /**
-     * Allows one user to follow another.
-     */
     @Transactional
     public String followUser(String followerUsername, String usernameToFollow) {
         User follower = findByUsername(followerUsername);
@@ -166,9 +62,6 @@ public class UserService {
         return followerUsername + " is now following " + usernameToFollow;
     }
 
-    /**
-     * Allows one user to unfollow another.
-     */
     @Transactional
     public String unfollowUser(String followerUsername, String usernameToUnfollow) {
         User follower = findByUsername(followerUsername);
@@ -178,40 +71,88 @@ public class UserService {
         return followerUsername + " has unfollowed " + usernameToUnfollow;
     }
 
-    /**
-     * Retrieves all users.
-     */
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(this::mapEntityToDto)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public String blockUser(String username, String usernameToBlock) {
+        if (username.equals(usernameToBlock)) {
+            throw new IllegalArgumentException("You cannot block yourself");
+        }
+        User currentuser = findByUsername(username);
+        User userToBlock = findByUsername(usernameToBlock);
+        if (currentuser.getFollowing().contains(userToBlock)) {
+            currentuser.getFollowing().remove(userToBlock);
+            userToBlock.getFollowers().remove(currentuser);
+        }
+        if (userToBlock.getFollowing().contains(currentuser)) {
+            userToBlock.getFollowing().remove(currentuser);
+            currentuser.getFollowers().remove(userToBlock);
+            userRepository.save(userToBlock);
+        }
+        currentuser.getBlockedUsers().add(userToBlock);
+        userRepository.save(currentuser);
+        return usernameToBlock + " is now blocked";
+    }
+
+    @Transactional
+    public String unblockUser(String username, String usernameToUnblock) {
+        if (username.equals(usernameToUnblock)) {
+            throw new IllegalArgumentException("You cannot unblock yourself");
+        }
+        User currentuser = findByUsername(username);
+        User userToUnblock = findByUsername(usernameToUnblock);
+        if (currentuser.getBlockedUsers().contains(userToUnblock)) {
+            currentuser.getBlockedUsers().remove(userToUnblock);
+            userRepository.save(currentuser);
+            return usernameToUnblock + " has been unblocked";
+        }
+        return usernameToUnblock + " was not blocked";
+    }
+
     public List<String> getBlockedUsernames(String username) {
         User user = findByUsername(username);
-        // Corrected method call
         Set<User> blockedUsers = user.getBlockedUsers();
-
         return blockedUsers.stream()
                 .map(User::getUsername)
                 .collect(Collectors.toList());
     }
 
+    public List<UserDto> getBlockedUsers(String username) {
+        User user = findByUsername(username);
+        Set<User> blockedUsers = user.getBlockedUsers();
+        return blockedUsers.stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+    }
 
-    /**
-     * Retrieves a user's followers as a list of DTOs.
-     */
+    public List<String> getUsersWhoBlocked(String username) {
+        return userRepository.findAll().stream()
+                .filter(u -> u.getBlockedUsers().stream().anyMatch(b -> b.getUsername().equals(username)))
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+    }
+
     public List<UserDto> getFollowers(String username) {
         User user = findByUsername(username);
-        // Map the Set<User> of followers to a List<UserDto>
         return user.getFollowers().stream()
                 .map(this::mapEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Retrieves the users someone is following as a list of DTOs.
-     */
+    public List<UserDto> getFollowersFiltered(String username, String requester) {
+        List<UserDto> followers = getFollowers(username);
+        if (requester == null) return followers;
+        if (requester.equals(username)) return followers;
+        List<String> usersWhoBlockedRequester = getUsersWhoBlocked(requester);
+        return followers.stream()
+                .filter(u -> !usersWhoBlockedRequester.contains(u.getUserName()) || u.getUserName().equals(requester))
+                .collect(Collectors.toList());
+    }
+
     public List<UserDto> getFollowing(String username) {
         User user = findByUsername(username);
         return user.getFollowing().stream()
@@ -219,16 +160,23 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * A helper method to map a User entity to a UserDto.
-     */
+    public List<UserDto> getFollowingFiltered(String username, String requester) {
+        List<UserDto> following = getFollowing(username);
+        if (requester == null) return following;
+        if (requester.equals(username)) return following;
+        List<String> usersWhoBlockedRequester = getUsersWhoBlocked(requester);
+        return following.stream()
+                .filter(u -> !usersWhoBlockedRequester.contains(u.getUserName()) || u.getUserName().equals(requester))
+                .collect(Collectors.toList());
+    }
+
     private UserDto mapEntityToDto(User user) {
         UserDto dto = new UserDto();
         dto.setUserName(user.getUsername());
         dto.setName(user.getName());
         dto.setBio(user.getBio());
         dto.setStatus(user.getStatus());
-        // IMPORTANT: Never expose the password in a DTO
         return dto;
     }
+
 }

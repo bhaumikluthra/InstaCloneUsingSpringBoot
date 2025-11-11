@@ -178,3 +178,68 @@ button {
   color: var(--primary-text-color);
 }
 
+/* ======================================= */
+/* Blocked Users Section Styles           */
+/* ======================================= */
+
+.blocked-users-section {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.blocked-users-section h4 {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  color: #ed4956; /* Red to indicate blocked action */
+}
+
+.blocked-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blocked-user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: rgba(237, 73, 86, 0.1); /* Light red background */
+  border: 1px solid rgba(237, 73, 86, 0.3); /* Red border */
+  border-radius: 6px;
+}
+
+.blocked-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.blocked-user-name {
+  font-weight: 600;
+  color: var(--primary-text-color);
+  font-size: 0.95rem;
+}
+
+.blocked-user-username {
+  color: var(--secondary-text-color);
+  font-size: 0.85rem;
+}
+
+.unblock-btn {
+  background-color: #ed4956; /* Red button for unblock action */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.unblock-btn:hover {
+  background-color: #c2374c; /* Darker red on hover */
+}
+

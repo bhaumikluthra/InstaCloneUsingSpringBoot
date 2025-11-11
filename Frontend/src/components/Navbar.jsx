@@ -26,7 +26,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/" className="navbar-logo">InstaClone</Link>
+                <Link to="/" className="navbar-logo">TweetInsta</Link>
 
                 <div className="navbar-search">
                     {/* 4. Connect input to state */}

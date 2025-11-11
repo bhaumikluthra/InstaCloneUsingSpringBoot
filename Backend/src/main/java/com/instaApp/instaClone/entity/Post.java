@@ -25,6 +25,9 @@ package com.instaApp.instaClone.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*; // Make sure to use jakarta.persistence imports
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
@@ -52,6 +55,9 @@ public class Post {
     private User user;
 
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
     // A no-argument constructor is required by JPA
     public Post() {
     }
@@ -60,6 +66,7 @@ public class Post {
     public Post(String postTitle, String content) {
         this.postTitle = postTitle;
         this.content = content;
+
     }
 
 
@@ -95,4 +102,9 @@ public class Post {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+
 }

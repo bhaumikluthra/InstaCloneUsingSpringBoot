@@ -52,6 +52,8 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
+
+
     // Inside PostService.java
 
     public PostDto addPost(PostDto postDto, String username) {
@@ -69,6 +71,7 @@ public class PostService {
         PostDto savedPostDto = new PostDto();
         savedPostDto.setPostTitle(savedPost.getPostTitle());
         savedPostDto.setPostContent(savedPost.getContent());
+        savedPostDto.setUsername(username);
 
         return savedPostDto;
     }
@@ -95,12 +98,33 @@ public class PostService {
     public List<PostDto> getAllPostsByUser(String username) {
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
-        // Correctly map entities to DTOs using the no-arg constructor and setters
+
         return user.getPosts().stream().map(post -> {
             PostDto dto = new PostDto();
+            dto.setPostId(post.getPostId());             // <-- important for delete
             dto.setPostTitle(post.getPostTitle());
             dto.setPostContent(post.getContent());
+            dto.setUsername(post.getUser().getUsername());
+            dto.setCreatedAt(post.getCreatedAt());// <-- owner username
             return dto;
         }).collect(Collectors.toList());
     }
+
+
+    //added later
+    private PostDto convertToDto(Post post) {
+        PostDto dto = new PostDto();
+        dto.setPostId(post.getPostId());              // ✅ set postId
+        dto.setPostTitle(post.getPostTitle());
+        dto.setPostContent(post.getContent());
+        dto.setCreatedAt(post.getCreatedAt()); // <-- automatically set by @CreationTimestamp
+
+        if (post.getUser() != null) {
+            dto.setUsername(post.getUser().getUsername());
+        }
+
+        return dto;
+    }
+
+
 }
